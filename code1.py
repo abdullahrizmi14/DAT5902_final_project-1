@@ -3,7 +3,7 @@ import numpy as np
 import openpyxl as xl      # To install this library 'pip install openpyxl'
 
 ## Functions Used ##
-def select_sheet(name):
+def select_sheet_pd(name):
     if name in all_data_pd:
         df = all_data_pd[name]
         print("Data from " + name + ":")
@@ -25,7 +25,7 @@ print('---------------------------------- Original columns ---------------------
 for name in sheetNames:
     print(name)
 
-## Deleting Merged data sheet and creating a new one ## 
+## Deleting Merged data sheet and creating a new one ##
 del data_xl['Merged Data']
 data_xl.create_sheet('merged_data_python')
 sheetNames = data_xl.sheetnames
@@ -38,8 +38,6 @@ for name in sheetNames:                           ## checking to make sure that 
 ## Copying in team names to new merged sheet ## 
 final_data_sheet = data_xl['merged_data_python']
 
-
-
 for i in range(1,34):
     for j in range(1,2):
 
@@ -49,5 +47,3 @@ for i in range(1,34):
 
 
 print(final_data_sheet.cell(row = 33, column = 1).value)
-
-print(data_xl['merged_data_python']['Team'])
