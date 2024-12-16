@@ -3,8 +3,7 @@ import numpy as np
 import openpyxl as xl      # To install this library 'pip install openpyxl'
 
 ## Functions Used ##
-
-def select_sheet_pd(name):
+def select_sheet(name):
     if name in all_data_pd:
         df = all_data_pd[name]
         print("Data from " + name + ":")
@@ -45,7 +44,6 @@ for i in range(1,34):
     for j in range(1,2):
 
         read_value = data_xl.worksheets[0].cell(row = i, column = j) 
-
         final_data_sheet.cell(row = i, column = j).value = read_value.value
 
 
