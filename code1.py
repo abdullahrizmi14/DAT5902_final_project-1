@@ -46,4 +46,6 @@ for i in range(1,34):
 
 
 
+select_sheet_pd(merged_data_python)
+
 print(final_data_sheet.cell(row = 33, column = 1).value)
