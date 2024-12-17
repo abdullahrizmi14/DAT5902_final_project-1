@@ -40,10 +40,10 @@ list_sheets_xl(data_xl)
 del data_xl['Merged Data']
 data_xl.create_sheet('merged_data_python')
 
-data_xl.save('The_Data_Landscape_Project_Stats_Macro_updated.xlsx')
+data_xl.save('The_Data_Landscape_Project_Stats_Macro_Updated.xlsx')
 
 print('----------------------------------- New columns ----------------------------------------------------')
-list_sheets_xl(data_xl)               ## checking to make sure that new names are implemented
+list_sheets_xl(data_xl)               ## checking to make sure that new sheet is implemented
 
 
 ## Copying in team names to new merged sheet ## 
@@ -60,5 +60,3 @@ data_xl.save('workbook_for_pandas.xlsx')
 all_data_pd = pd.read_excel('workbook_for_pandas.xlsx', sheet_name = None)
 
 select_sheet_pd('merged_data_python')    ## Checking head of sheet 
-
-print(final_data_sheet.cell(row = 33, column = 1).value)
