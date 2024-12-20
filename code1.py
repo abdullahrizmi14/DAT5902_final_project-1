@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 import openpyxl as xl      # To install this library 'pip install openpyxl'
+import os
+
 
 ## Functions Used ##
 
@@ -61,10 +63,21 @@ print('----------------------------------- New columns -------------------------
 list_sheets_xl(data_xl)               ## checking to make sure that new sheet and 1st column are implemented
 
 ## Save the workbook ##
-data_xl.save('transformation_workbook.xlsx')
+file_name = 'transformation_workbook.xlsx'
+
+if os.path.exists(file_name):
+    os.remove(file_name)
+    print(f"Existing file'{file_name}' deleted.")
+else:
+    print(f"No existing file found with name'{file_name}'.")
+
+data_xl.save(file_name)
+print(f"New file '{file_name}' created successfully.")
+
+
 
 ## Load new workbook for transformations and check head ##
-tf = xl.load_workbook('transformation_workbook.xlsx')
+tf = xl.load_workbook(file_name)
 select_sheet_xl(tf,'merged_data_python')    ## Checking head of sheet 
 
 
@@ -88,6 +101,7 @@ tf.save('transformation_workbook.xlsx')
 
 
 
+## Vlookup ##
 
 
 
@@ -107,26 +121,27 @@ tf.save('transformation_workbook.xlsx')
 
 
 
-# Access the first and last sheets
-first_sheet = tf.worksheets[0]  # Assuming the first sheet is the source
-last_sheet = tf.worksheets[-1]  # Assuming the last sheet is the target
 
-# Iterate over rows in the last sheet (starting from the second row to skip the header)
-for row in range(2, last_sheet.max_row + 1):  # row=2 to skip the header
-    search_value = last_sheet.cell(row=row, column=1).value  # Get the value in the first column
+# # Access the first and last sheets
+# first_sheet = tf.worksheets[0]  # Assuming the first sheet is the source
+# last_sheet = tf.worksheets[-1]  # Assuming the last sheet is the target
+
+# # Iterate over rows in the last sheet (starting from the second row to skip the header)
+# for row in range(2, last_sheet.max_row + 1):  # row=2 to skip the header
+#     search_value = last_sheet.cell(row=row, column=1).value  # Get the value in the first column
     
-    if search_value:  # Ensure the value is not empty
-        # Look for the matching value in the first column of the first sheet
-        for source_row in range(2, first_sheet.max_row + 1):  # Assuming the source also has a header
-            source_value = first_sheet.cell(row=source_row, column=1).value
+#     if search_value:  # Ensure the value is not empty
+#         # Look for the matching value in the first column of the first sheet
+#         for source_row in range(2, first_sheet.max_row + 1):  # Assuming the source also has a header
+#             source_value = first_sheet.cell(row=source_row, column=1).value
             
-            if search_value == source_value:  # Match found
-                # Copy data from the source sheet to the target sheet
-                for col in range(2, first_sheet.max_column + 1):  # Start from column 2 in source
-                    value_to_copy = first_sheet.cell(row=source_row, column=col).value
-                    last_sheet.cell(row=row, column=col).value = value_to_copy  # Write into last sheet
-                break  # Stop searching once a match is found
+#             if search_value == source_value:  # Match found
+#                 # Copy data from the source sheet to the target sheet
+#                 for col in range(2, first_sheet.max_column + 1):  # Start from column 2 in source
+#                     value_to_copy = first_sheet.cell(row=source_row, column=col).value
+#                     last_sheet.cell(row=row, column=col).value = value_to_copy  # Write into last sheet
+#                 break  # Stop searching once a match is found
 
 # Save the updated workbook
-tf.save('transformation_workbook.xlsx')
+#tf.save('transformation_workbook.xlsx')
 # print("VLookup operation completed successfully!")
