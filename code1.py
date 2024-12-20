@@ -78,7 +78,7 @@ print(f"New file '{file_name}' created successfully.")
 
 ## Load new workbook for transformations and check head ##
 tf = xl.load_workbook(file_name)
-select_sheet_xl(tf,'merged_data_python')    ## Checking head of sheet 
+#select_sheet_xl(tf,'merged_data_python')    ## Checking head of sheet 
 
 
 ## Getting sheet names to make column headers ##
@@ -102,14 +102,22 @@ tf.save('transformation_workbook.xlsx')
 
 
 ## Vlookup ##
+# last_sheet_tf['B2'] = "=INDEX('Points Per Game'!B:B, MATCH(A2, 'Points Per Game'!A:A, 0))"
+
+# for row in range(2, last_sheet_tf.max_row + 1):
+#     last_sheet_tf[f"B{row}"] = f"=INDEX('Points Per Game'!B:B, MATCH(A{row}, 'Points Per Game'!A:A, 0))"
+
+# tf.save('transformation_workbook.xlsx')
 
 
+for sheet_index,sheet in enumerate(tf_shts,start=start_col):
+    
+    for row in range(2, last_sheet_tf.max_row + 1):
+        last_sheet_tf.cell(row=row,column=sheet_index).value = (
+            f"=INDEX('{sheet}'!B:B, MATCH(A{row}, '{sheet}'!A:A, 0))"
+        )
 
-
-
-
-
-
+tf.save('transformation_workbook.xlsx')
 
 
 
