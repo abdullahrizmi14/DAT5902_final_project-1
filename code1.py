@@ -82,11 +82,17 @@ start_col = 2
 start_row = 1
 
 for col_index, header in enumerate(headers,start=start_col):
+    print(f"Writing header '{header}' to column {col_index}")
     cell = last_sheet_tf.cell(row=start_row, column=col_index)
     cell.value = header
 
+tf.save(file_name)
+
+
+
 
 ## Vlookup ##
+
 
 
 
