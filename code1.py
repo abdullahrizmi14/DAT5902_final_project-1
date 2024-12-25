@@ -89,8 +89,6 @@ for col_index, header in enumerate(headers,start=start_col):
 tf.save(file_name)
 
 
-
-
 ## Vlookup ##
 
 # Loading Workbook and sheet names
@@ -107,157 +105,16 @@ for i, sheet_name in enumerate(sheetNames_wb):
         print("Not enough columns in main_data to update. Skipping remaining sheets.")
         break
 
+    # Iterating through sheets
     lookup_data = pd.read_excel(file_name, sheet_name=sheet_name)  # Lookup data
     columns_ld = list(lookup_data.columns)
 
-    # Perform VLOOKUP equivalent: merge on a common key
+    # Merge on common key 'Team'
     merged_data = main_data.merge(lookup_data[columns_ld[:2]], on='Team', how='left')
 
     main_data[columns_md[i + 1]] = merged_data[columns_ld[1]]
 
-# Save the updated main_data back to the Excel
-with pd.ExcelWriter('test_vlookup.xlsx', engine='openpyxl') as writer:
-    main_data.to_excel(writer, sheet_name='merged_data_python', index=False)
-
-print("VLOOKUP operation completed successfully.")
-
-
 # Save to CSV
-#main_data.to_csv('test_vlookup_with_loop.csv', index=False)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# for sheet_index,sheet in enumerate(headers,start=start_col):
-#     for row in range(2, last_sheet_tf.max_row + 1):
-#         last_sheet_tf.cell(row=row,column=sheet_index).value = (
-#             f"=INDEX('{sheet}'!B:B, MATCH(A{row}, '{sheet}'!A:A, 0))"
-#         )
-# tf.save('transformation_workbook.xlsx')
-# print("Workbook with fomulas saved")
-
-
-
-
-# # Iterate through rows in the target sheet (starting from row 2 to skip the header)
-# for row in range(2, last_sheet_tf.max_row + 1):
-#     search_value = last_sheet_tf.cell(row=row, column=1).value  # Value to look up in column A
-    
-#     if search_value:  # Ensure the value is not empty
-#         # Iterate through source sheets to find the match
-#         for sheet_name in headers:
-#             source_sheet = tf[sheet_name]
-            
-#             # Search for the matching value in column A of the source sheet
-#             for source_row in range(2, source_sheet.max_row + 1):  # Assuming headers are in row 1
-#                 if source_sheet.cell(row=source_row, column=1).value == search_value:
-#                     # Retrieve the value from column B (or any specified column)
-#                     matched_value = source_sheet.cell(row=source_row, column=2).value
-                    
-#                     # Write the retrieved value into the target sheet's column B
-#                     last_sheet_tf.cell(row=row, column=2).value = matched_value
-#                     break  # Stop searching once a match is found
-
-# # Save the updated workbook
-# tf.save('transformation_workbook_values.xlsx')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# last_sheet = tf[last_sheet_name]
-
-# Replace formulas with their computed values
-# for row_index, row in enumerate(last_sheet_tf.iter_rows(values_only=True), start=1):
-#     for col_index, value in enumerate(row, start=1):
-#         last_sheet_tf.cell(row=row_index, column=col_index, value=value)
-
-# # Save the workbook with updated values
-# tf.save('transformation_workbook.xlsx')
-# print("Workbook updated with values only.")
-
-
-
-
-
-## Copy and Paste values ##
-# tf = xl.load_workbook('transformation_workbook.xlsx', data_only=True)
-
-
-# # Replace formulas with their computed values
-# for row_index, row in enumerate(last_sheet_tf.iter_rows(values_only=True), start=1):
-#     for col_index, value in enumerate(row, start=1):
-#         last_sheet_tf.cell(row=row_index, column=col_index, value=value)
-
-# # Save the workbook with updated values
-# tf.save('transformation_workbook.xlsx')
-
-
-# df=pd.read_excel('transformation_workbook.xlsx', sheet_name='merged_data_python')
-
-
-
-
-
-
-
-
-
-
-
-
-# final_data_xl = xl.Workbook()
-# new_sheet = final_data_xl.active
-# new_sheet.title = last_sheet_name
-
-# for row in last_sheet_tf.iter_rows(values_only=True):
-#     new_sheet.append(row)
-
-# final_data_xl.save('final_data.xlsx')
-# print(f"Values from the last sheet '{last_sheet_name}' saved successfully.")
-
-# select_sheet(tf,'merged_data_python') 
-
-
-## Loading the Final dataset to CSV ##
-# final_excel = 'transformation_workbook.xlsx'
-# final__excel_sheet = 'merged_data_python'
-
-# df = pd.read_excel(final_excel,sheet_name = final__excel_sheet)
-
-# csv_name = 'final_data.csv'
-# df.to_csv(csv_name, index=False)
-# print(f"Sheet '{final__excel_sheet}' saved as '{csv_name}'.")
+main_data.to_csv('final_data.csv', index=False)
+print("VLOOKUP operation completed successfully.")
 
