@@ -92,45 +92,38 @@ tf.save(file_name)
 
 
 ## Vlookup ##
+
+# Loading Workbook and sheet names
 main_wb = pd.read_excel(file_name, sheet_name=None)
 sheetNames_wb = list(main_wb.keys())
-main_data = pd.read_excel(file_name,sheet_name='merged_data_python')
 
+# Loading last sheet and columns
+main_data = pd.read_excel(file_name, sheet_name='merged_data_python')  # Main data
 columns_md = list(main_data.columns)
 
-current_data = main_wb[sheetNames_wb[0]]
 
+for i, sheet_name in enumerate(sheetNames_wb):
+    if i >= len(columns_md)-1:
+        print("Not enough columns in main_data to update. Skipping remaining sheets.")
+        break
 
+    lookup_data = pd.read_excel(file_name, sheet_name=sheet_name)  # Lookup data
+    columns_ld = list(lookup_data.columns)
 
+    # Perform VLOOKUP equivalent: merge on a common key
+    merged_data = main_data.merge(lookup_data[columns_ld[:2]], on='Team', how='left')
 
-# Load the Excel file
-main_data = pd.read_excel(file_name, sheet_name='merged_data_python')  # Main data
-lookup_data = pd.read_excel(file_name, sheet_name=sheetNames_wb[0])  # Lookup data
+    main_data[columns_md[i + 1]] = merged_data[columns_ld[1]]
 
-columns_ld = list(lookup_data.columns)
-
-# Perform VLOOKUP equivalent: merge on a common key
-# Example: 'Team' is the common column
-merged_data = main_data.merge(lookup_data[columns_ld[:2]], on='Team', how='left')
-
-# Place the retrieved value into the desired column (e.g., "Score" column in main_data)
-# Assuming 'Rank' is the value we want from lookup_data
-main_data[columns_md[1]] = merged_data[columns_ld[1]]
-
-# Save the updated main_data back to the Excel file
+# Save the updated main_data back to the Excel
 with pd.ExcelWriter('test_vlookup.xlsx', engine='openpyxl') as writer:
     main_data.to_excel(writer, sheet_name='merged_data_python', index=False)
 
 print("VLOOKUP operation completed successfully.")
 
 
-print(columns_md)
-print(columns_ld)
-
-print(merged_data.head())
-
-
-
+# Save to CSV
+#main_data.to_csv('test_vlookup_with_loop.csv', index=False)
 
 
 
