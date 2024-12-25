@@ -30,6 +30,13 @@ def list_sheets(workbook):
     for name in sheetNames:
         print(name)
 
+def check_if_exists_then_create(file_path):
+    if os.path.exists(file_path):
+        os.remove(file_path)
+        print(f"Existing file'{file_path}' deleted.")
+    else:
+        print(f"No existing file found with name'{file_path}'.")
+
 
 ## Loading in original workbook ##
 data_xl = xl.load_workbook('The_Data_Landscape_Project_Stats_Macro.xlsx')
@@ -56,13 +63,7 @@ list_sheets(data_xl)               ## checking to make sure that new sheet and 1
 
 ## Save the workbook ##
 file_name = 'transformation_workbook.xlsx'
-
-if os.path.exists(file_name):
-    os.remove(file_name)
-    print(f"Existing file'{file_name}' deleted.")
-else:
-    print(f"No existing file found with name'{file_name}'.")
-
+check_if_exists_then_create(file_name)
 data_xl.save(file_name)
 print(f"New file '{file_name}' created successfully.")
 
@@ -86,6 +87,7 @@ for col_index, header in enumerate(headers,start=start_col):
     cell = last_sheet_tf.cell(row=start_row, column=col_index)
     cell.value = header
 
+# Save
 tf.save(file_name)
 
 
@@ -117,4 +119,55 @@ for i, sheet_name in enumerate(sheetNames_wb):
 # Save to CSV
 main_data.to_csv('final_data.csv', index=False)
 print("VLOOKUP operation completed successfully.")
+
+
+
+#######################################################################################################################
+
+## Analysis and Figures ##
+
+## Loading Data ##
+df = pd.read_csv('final_data.csv')
+df
+
+## Figure 1 'Rushing and Passing Play %'s ##
+
+## Storing data for Rushing Play % and Passing Play %
+rushing_03 = df['Rushing Play % (2003)']
+rushing_13 = df['Rushing Play % (2013)']
+rushing_23 = df['Rushing Play % (2023)']
+
+passing_03 = df['Passing Play % (2003)']
+passing_13 = df['Passing Play % (2013)']
+passing_23 = df['Passing Play % (2023)']
+
+# Create a figure
+plt.figure(figsize=(10, 6))
+
+# Plot KDE for Rushing Play %
+sns.kdeplot(rushing_03, shade=True, label='Rushing (2003)', color='blue', bw_adjust=1.2)
+sns.kdeplot(rushing_13, shade=True, label='Rushing (2013)', color='green', bw_adjust=1.2)
+sns.kdeplot(rushing_23, shade=True, label='Rushing (2023)', color='red', bw_adjust=1.2)
+
+# Plot KDE for Passing Play %
+sns.kdeplot(passing_03, shade=True, label='Passing (2003)', color='purple', bw_adjust=1.2)
+sns.kdeplot(passing_13, shade=True, label='Passing (2013)', color='orange', bw_adjust=1.2)
+sns.kdeplot(passing_23, shade=True, label='Passing (2023)', color='brown', bw_adjust=1.2)
+
+# Titles and labels
+plt.xlabel('Percentage', fontsize = 15, labelpad=15, fontweight = 'bold')
+plt.ylabel('Density', fontsize = 15, labelpad=15, fontweight = 'bold')
+plt.title('Rushing and Passing Play % (2003, 2013, 2023)')
+
+# Add legend
+plt.legend(loc='upper right')
+
+
+## Save the figure as an image file (e.g., PNG or JPG)
+plt.savefig('play_percentage_distribution_20years.png', format='png', dpi=300)
+
+
+
+
+
 
