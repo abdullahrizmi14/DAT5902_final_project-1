@@ -29,6 +29,21 @@ def list_sheets(workbook):
     for name in sheetNames:
         print(name)
 
+def write_headers_to_sheet(sheet, headers, start_col=1, start_row=1):
+    """
+    Writes a list of headers into a specified sheet starting from a given column and row.
+
+    Args:
+        sheet: The target worksheet (openpyxl worksheet object).
+        headers: List of headers to write.
+        start_col: Starting column to write headers (default 1).
+        start_row: Row to write headers (default 1).
+    """
+    for col_index, header in enumerate(headers, start=start_col):
+        print(f"Writing header '{header}' to column {col_index}")
+        cell = sheet.cell(row=start_row, column=col_index)
+        cell.value = header
+
 def check_if_exists_then_create(file_path):
     if os.path.exists(file_path):
         os.remove(file_path)
@@ -81,10 +96,7 @@ last_sheet_tf = tf[last_sheet_name]
 start_col = 2
 start_row = 1
 
-for col_index, header in enumerate(headers,start=start_col):
-    print(f"Writing header '{header}' to column {col_index}")
-    cell = last_sheet_tf.cell(row=start_row, column=col_index)
-    cell.value = header
+write_headers_to_sheet(last_sheet_tf, headers, start_col=2)
 
 # Save
 tf.save(file_name)
@@ -170,6 +182,7 @@ plt.savefig('Figures/play_percentage_distribution_20years.png', format='png', dp
 
 
 
+
 ## Figure 2 'Win Percentage vs Rushing Play Percentage in 2023' ##
 
 # Create a dictionary of NFL teams and their primary colors in hex
@@ -246,8 +259,10 @@ for year in [2003, 2013, 2023]:
 
 
 
-## Figure 3 'Rushing vs Passing Tocuhdown % (2023) ##
 
+
+
+## Figure 3 'Rushing vs Passing Tocuhdown % (2023) ##
 
 # Select only the relevant columns
 td_data = df[['Rushing Touchdowns %', 'Passing Touchdown %']]
