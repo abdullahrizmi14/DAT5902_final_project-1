@@ -167,6 +167,9 @@ plt.savefig('Figures/play_percentage_distribution_20years.png', format='png', dp
 
 
 
+
+
+
 ## Figure 2 'Win Percentage vs Rushing Play Percentage in 2023' ##
 
 # Create a dictionary of NFL teams and their primary colors in hex
@@ -241,3 +244,67 @@ for year in [2003, 2013, 2023]:
 
 
 
+
+
+## Figure 3 'Rushing vs Passing Tocuhdown % (2023) ##
+
+
+# Select only the relevant columns
+td_data = df[['Rushing Touchdowns %', 'Passing Touchdown %']]
+
+# Convert to long format for easier plotting
+td_long = td_data.melt(var_name='TD Type', value_name='Touchdown %')
+
+# Rename the x-axis values
+td_long['TD Type'] = td_long['TD Type'].replace({
+    'Rushing Touchdowns %': 'Rushing',
+    'Passing Touchdown %': 'Passing'
+})
+
+# Plot the box plot
+plt.figure(figsize=(8, 6))
+sns.boxplot(x='TD Type', y='Touchdown %', data=td_long, palette={'Rushing': 'lightgreen', 'Passing': 'skyblue'})
+
+# Add titles and labels
+plt.title('Rushing vs Passing Touchdown % (2023)')
+plt.xlabel('Touchdown Type', labelpad=15, fontweight = 'bold')
+plt.ylabel('Percentage', labelpad=15, fontweight = 'bold')
+
+plt.savefig('Figure/touchdown_type_percentages.png', format='png', dpi=300)
+
+
+
+
+
+
+
+
+## Figure 4 'Pass Completion %'s' ##
+
+# Select only the columns with completion percentages
+completion_columns = ['Completion % (2003)', 'Completion % (2013)', 'Completion % (2023)']
+
+# Create a DataFrame with only these columns
+completion_data = df[completion_columns]
+
+# Convert the data to long format for easier plotting
+completion_long = completion_data.melt(var_name='Year', value_name='Completion %')
+
+# Rename the x-axis values
+completion_long['Year'] = completion_long['Year'].replace({
+    'Completion % (2003)': '2003',
+    'Completion % (2013)': '2013',
+    'Completion % (2023)': '2023'
+})
+
+# Define a custom color palette for each year
+custom_palette = {"2003": "skyblue", "2013": "lightgreen", "2023": "#FF9999"}
+
+# Plot box plots for each year's completion percentage on the same axis
+plt.figure(figsize=(10, 6))
+sns.boxplot(x='Year', y='Completion %', data=completion_long, palette = custom_palette)
+plt.title('Pass Completion %`s')
+plt.xlabel('Year', fontsize = 10, labelpad=15, fontweight = 'bold')
+plt.ylabel('Completion Percentage', fontsize = 10, fontweight = 'bold')
+
+plt.savefig('Figures/pass_completion_percentages.png', format='png', dpi=300)
