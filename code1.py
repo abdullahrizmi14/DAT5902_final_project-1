@@ -129,7 +129,7 @@ print("VLOOKUP operation completed successfully.")
 df = pd.read_csv('final_data.csv')
 df
 
-## Figure 1 'Rushing and Passing Play %'s ##
+## Figure 1 'Rushing and Passing Play %'s' ##
 
 ## Storing data for Rushing Play % and Passing Play %
 rushing_03 = df['Rushing Play % (2003)']
@@ -163,11 +163,80 @@ plt.legend(loc='upper right')
 
 
 ## Save the figure as an image file (e.g., PNG or JPG)
-plt.savefig('play_percentage_distribution_20years.png', format='png', dpi=300)
+plt.savefig('Figures/play_percentage_distribution_20years.png', format='png', dpi=300)
 
 
 
+## Figure 2 'Win Percentage vs Rushing Play Percentage in 2023' ##
 
+# Create a dictionary of NFL teams and their primary colors in hex
+team_colors = {
+    'Baltimore': '#241773', 'Kansas City': '#E31837', 'San Francisco': '#AA0000', 'Detroit': '#0076B6',
+    'Dallas': '#003594', 'Buffalo': '#00338D', 'Cleveland': '#311D00', 'Miami': '#008E97',
+    'Philadelphia': '#004C54', 'Houston': '#03202F', 'LA Rams': '#003594', 'Pittsburgh': '#FFB612',
+    'Cincinnati': '#FB4F14', 'New Orleans': '#D3BC8D', 'Seattle': '#002244', 'Jacksonville': '#006778',
+    'Indianapolis': '#002C5F', 'Tampa Bay': '#D50A0A', 'Green Bay': '#203731', 'Denver': '#FB4F14',
+    'Las Vegas': '#000000', 'Minnesota': '#4F2683', 'Atlanta': '#A71930', 'Chicago': '#0B162A',
+    'NY Jets': '#125740', 'NY Giants': '#0B2265', 'Tennessee': '#4B92DB', 'LA Chargers': '#0073CF',
+    'Washington': '#5A1414', 'New England': '#002244', 'Arizona': '#97233F', 'Carolina': '#0085CA'
+}
+
+# Calculate correlation coefficients for each year
+correlation_2003 = df['Rushing Play % (2003)'].corr(df['Win % (2003)'])
+correlation_2013 = df['Rushing Play % (2013)'].corr(df['Win % (2013)'])
+correlation_2023 = df['Rushing Play % (2023)'].corr(df['Win % (2023)'])
+
+print(f'Correlation (2003): {correlation_2003:.2f}')
+print(f'Correlation (2013): {correlation_2013:.2f}')
+print(f'Correlation (2023): {correlation_2023:.2f}')
+
+# Function to create scatter plot for a given year
+def plot_scatter(year):
+    plt.figure(figsize=(12, 6))
+    
+    # Select data for the year
+    x_data = df[f'Rushing Play % ({year})']
+    y_data = df[f'Win % ({year})']
+    teams = df['Team']
+    
+    # Map each team to its color
+    colors = [team_colors[team] for team in teams]
+
+    # Create the scatter plot
+    scatter = plt.scatter(x_data, y_data, color=colors, s=100)
+    
+    
+    # Add titles and labels
+    plt.title(f'Win Percentage vs Rushing Play Percentage in {year}', fontsize=14)
+    plt.xlabel('Rushing Play Percentage (%)', fontsize=12, fontweight = 'bold')
+    plt.ylabel('Win Percentage (%)', fontsize=12, fontweight = 'bold')
+
+
+    # Create custom legend with team names and their colors
+    handles = [plt.Line2D([0], [0], marker='o', color=color, markersize=10, linestyle='', label=team)
+               for team, color in team_colors.items()]
+
+    # Position the legend at the bottom with multiple columns
+    plt.legend(handles=handles, bbox_to_anchor=(0.5, -0.2), loc='upper center', ncol=6, title='NFL Teams')
+
+    # Calculate and display the correlation coefficient
+    correlation = x_data.corr(y_data)
+
+    # Adjust layout
+    plt.tight_layout()
+
+    # Display the correlation coefficient on the plot
+    plt.text(0.05, 0.95, f'Correlation: {correlation:.2f}', fontsize=12, color='black',
+             transform=plt.gca().transAxes, verticalalignment='top', horizontalalignment='left')
+
+
+    # Save the plot
+    plt.savefig(f'Figures/win_vs_rush ({year}).png', format='png', dpi=300)
+
+
+# Generate scatter plots for each year
+for year in [2003, 2013, 2023]:
+    plot_scatter(year)
 
 
 
