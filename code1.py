@@ -25,6 +25,15 @@ def select_sheet(workbook, name):      # Display the first few rows of the sheet
         print(name + "sheet not found.")
 
 def list_sheets(workbook):
+    """
+    Prints the names of all sheets in an Excel workbook.
+
+    Args:
+        workbook (openpyxl.Workbook): The Excel workbook object.
+
+    Returns:
+        None
+    """
     sheetNames = workbook.sheetnames
     for name in sheetNames:
         print(name)
@@ -44,7 +53,17 @@ def write_headers_to_sheet(sheet, headers, start_col=1, start_row=1):
         cell = sheet.cell(row=start_row, column=col_index)
         cell.value = header
 
-def check_if_exists_then_create(file_path):
+def check_if_exists_then_delete(file_path):
+    """
+    Checks if a file exists at the specified path and deletes it if found. 
+    If no file is found, it logs a message indicating its absence.
+
+    Args:
+        file_path (str): The path to the file.
+
+    Returns:
+        None
+    """
     if os.path.exists(file_path):
         os.remove(file_path)
         print(f"Existing file'{file_path}' deleted.")
@@ -77,7 +96,7 @@ list_sheets(data_xl)               ## checking to make sure that new sheet and 1
 
 ## Save the workbook ##
 file_name = 'transformation_workbook.xlsx'
-check_if_exists_then_create(file_name)
+check_if_exists_then_delete(file_name)
 data_xl.save(file_name)
 print(f"New file '{file_name}' created successfully.")
 
@@ -181,8 +200,6 @@ plt.savefig('Figures/play_percentage_distribution_20years.png', format='png', dp
 
 
 
-
-
 ## Figure 2 'Win Percentage vs Rushing Play Percentage in 2023' ##
 
 # Create a dictionary of NFL teams and their primary colors in hex
@@ -258,10 +275,6 @@ for year in [2003, 2013, 2023]:
 
 
 
-
-
-
-
 ## Figure 3 'Rushing vs Passing Tocuhdown % (2023) ##
 
 # Select only the relevant columns
@@ -286,9 +299,6 @@ plt.xlabel('Touchdown Type', labelpad=15, fontweight = 'bold')
 plt.ylabel('Percentage', labelpad=15, fontweight = 'bold')
 
 plt.savefig('Figure/touchdown_type_percentages.png', format='png', dpi=300)
-
-
-
 
 
 
