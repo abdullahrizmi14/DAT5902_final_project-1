@@ -61,5 +61,6 @@ class TestFunction(unittest.TestCase):
         check_if_exists_then_delete(self.test_file)  # Should not raise any errors
 
 
+
 if __name__ == "__main__":
     unittest.main()
