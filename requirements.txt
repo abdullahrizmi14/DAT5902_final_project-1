@@ -2,3 +2,6 @@ pytest
 openpyxl
 pandas
 numpy
+matplotlib
+seaborn
+os
