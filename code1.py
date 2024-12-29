@@ -298,7 +298,7 @@ plt.title('Rushing vs Passing Touchdown % (2023)')
 plt.xlabel('Touchdown Type', labelpad=15, fontweight = 'bold')
 plt.ylabel('Percentage', labelpad=15, fontweight = 'bold')
 
-plt.savefig('Figure/touchdown_type_percentages.png', format='png', dpi=300)
+plt.savefig('Figures/touchdown_type_percentages.png', format='png', dpi=300)
 
 
 
