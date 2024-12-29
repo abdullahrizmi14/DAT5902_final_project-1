@@ -3,9 +3,12 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: python:3.8
+      - image: circleci/python:3.10
     steps:
       - checkout
+      - run:
+          name: Upgrade pip
+          command: pip install --upgrade pip
       - run:
           name: Install dependencies
           command: pip install -r requirements.txt
