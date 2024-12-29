@@ -7,7 +7,7 @@ import os
 from adjustText import adjust_text
 
 
-## Functions Used ##
+## Functions Used #
 def select_sheet(workbook, name):      # Display the first few rows of the sheet from excel workbook
     """
     Display the first few rows of the specified sheet from an openpyxl workbook.
