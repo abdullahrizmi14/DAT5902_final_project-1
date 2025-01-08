@@ -70,6 +70,40 @@ def check_if_exists_then_delete(file_path):
     else:
         print(f"No existing file found with name'{file_path}'.")
 
+def merge_and_append_data(main_data, lookup_data, key_column, value_column):
+    """
+    Merges two DataFrames on a specified key column, adding a specific value column from the lookup DataFrame.
+
+    This function performs a left join between the `main_data` and `lookup_data` DataFrames. 
+    It matches rows based on the values in the `key_column` and includes the `value_column` from `lookup_data` 
+    in the resulting DataFrame.
+
+    Args:
+        main_data (pd.DataFrame): The primary DataFrame to which data will be added.
+        lookup_data (pd.DataFrame): The secondary DataFrame containing the lookup values.
+        key_column (str): The name of the column to merge on (must exist in both DataFrames).
+        value_column (str): The name of the column from `lookup_data` to include in the merged DataFrame.
+
+    Returns:
+        pd.DataFrame: A new DataFrame that includes all rows from `main_data` and the `value_column` 
+        from `lookup_data`, matched on the `key_column`. If no match is found, the `value_column` will contain NaN.
+
+    Raises:
+        KeyError: If the `key_column` or `value_column` does not exist in the respective DataFrames.
+        ValueError: If either `main_data` or `lookup_data` is not a valid DataFrame.
+    
+    Example:
+        >>> main_data = pd.DataFrame({"Team": ["A", "B"], "Score": [1, 2]})
+        >>> lookup_data = pd.DataFrame({"Team": ["A", "B"], "Rank": [3, 4]})
+        >>> merge_data(main_data, lookup_data, "Team", "Rank")
+           Team  Score  Rank
+        0     A      1     3
+        1     B      2     4
+    """
+    merged_data = main_data.merge(lookup_data[[key_column, value_column]], on=key_column, how='left')
+    return merged_data
+
+
 
 ## Loading in original workbook ##
 data_xl = xl.load_workbook('The_Data_Landscape_Project_Stats_Macro.xlsx')
@@ -142,15 +176,13 @@ for i, sheet_name in enumerate(sheetNames_wb):
     columns_ld = list(lookup_data.columns)
 
     # Merge on common key 'Team'
-    merged_data = main_data.merge(lookup_data[columns_ld[:2]], on='Team', how='left')
+    merged_data = merge_and_append_data(main_data,lookup_data,'Team',columns_ld[1])
 
     main_data[columns_md[i + 1]] = merged_data[columns_ld[1]]
 
 # Save to CSV
 main_data.to_csv('final_data.csv', index=False)
 print("VLOOKUP operation completed successfully.")
-
-
 
 #######################################################################################################################
 
