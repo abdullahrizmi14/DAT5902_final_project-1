@@ -1,1 +1,4 @@
 ~$transformation_workbook.xlsx
+__pycache__/
+.venv/
+*.pyc

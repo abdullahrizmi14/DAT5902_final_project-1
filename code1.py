@@ -106,7 +106,7 @@ def merge_and_append_data(main_data, lookup_data, key_column, value_column):
 
 
 ## Loading in original workbook ##
-data_xl = xl.load_workbook('The_Data_Landscape_Project_Stats_Macro.xlsx')
+data_xl = xl.load_workbook('data/The_Data_Landscape_Project_Stats_Macro.xlsx')
 
 ## Checking sheets for original workbook ##
 print('---------------------------------- Original columns -----------------------------------------------')
@@ -129,7 +129,7 @@ print('----------------------------------- New columns -------------------------
 list_sheets(data_xl)               ## checking to make sure that new sheet and 1st column are implemented
 
 ## Save the workbook ##
-file_name = 'transformation_workbook.xlsx'
+file_name = 'data/transformation_workbook.xlsx'
 check_if_exists_then_delete(file_name)
 data_xl.save(file_name)
 print(f"New file '{file_name}' created successfully.")
@@ -181,7 +181,7 @@ for i, sheet_name in enumerate(sheetNames_wb):
     main_data[columns_md[i + 1]] = merged_data[columns_ld[1]]
 
 # Save to CSV
-main_data.to_csv('final_data.csv', index=False)
+main_data.to_csv('data/final_data.csv', index=False)
 print("VLOOKUP operation completed successfully.")
 
 #######################################################################################################################
@@ -189,7 +189,7 @@ print("VLOOKUP operation completed successfully.")
 ## Analysis and Figures ##
 
 ## Loading Data ##
-df = pd.read_csv('final_data.csv')
+df = pd.read_csv('data/final_data.csv')
 df
 
 ## Figure 1 'Rushing and Passing Play %'s' ##
