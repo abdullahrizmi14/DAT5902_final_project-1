@@ -1,10 +1,14 @@
 *********************************** Final Project 'Professional Software and Career Practises' ***********************************
 
-This project performs data transformations and creates visualizations to analyze NFL statistics. It includes data merging, validation 
-and visualization of key metrics.
+This project performs data transformations and creates visualisations to analyse NFL statistics. It includes data merging, validation 
+and visualisation of key metrics.
 
 This repository includes the code I used in order to transform and manipulate the data I collected to then
 create figures I can use in my report to visualise the data.
+
+***************** Repository *****************
+
+[GitHub Repository](https://github.com/DAT5902_final_project-1)
 
 ***************** Prerequisites *****************
 
@@ -37,18 +41,18 @@ I will explain the purpose for the files in my repository:
 
 code1.py:
 
-    - This is the main code file. Includes all my code on functions, importing, transforming the data.
-      This is also the file the in which I create my datasets and figures in.
+    - The primary code file containing all functions for importing, transforming, and analysing the data.
+    - Generates datasets and figures used in the analysis.
 
-unit_tests.py:
+unit_tests.pyy
 
-    - The file which contains all my unit tests created. They test independent functions whcih can be tested
-      independently
+    - A collection of unit tests for testing independent functions in the project.
+    - Ensures critical components of the project function as expected.
 
 requirements.txt:
 
-    - This is a file that circle.ci reads in order to test my unit tests, including the imported libraries I
-      used. This was done by running 'pip freeze > requirements.txt' in the terminal of my environment
+    - A list of Python libraries and their versions required to run the project.
+    - Generated using the command: 'pip freeze > requirements.txt'
 
 data/:
 
@@ -56,23 +60,42 @@ data/:
 
         - The_Data_Landscape_Project_Stats_Macro.xlsx: 
 
-            Data I began with, consists of many tables each with an individual statistic in one workbook.
+            The initial dataset containing multiple tables with individual statistics in one workbook.
         
         - transformation_workbook.xlsx:
 
-            Data for my tranformations, this workbook was my 'playground'. I imported data from 'The_Data_Landscape_Project_Stats_Macro.xlsx' 
-            by merging all the smaller datasets into one large one. This dataset was me trialing my methods before I saved it
-            all to the final form.
+            A playground dataset created during the transformation process. This file contains the merged and manipulated data used for
+            testing methods before finalising.
 
         - final_data.csv:
 
-            This csv file was my polished data after the data was cleaned and transformed. Saved in a CSV file.
+            The final cleaned and transformed dataset saved as a CSV file. This file is used to generate the figures for the analysis.
 
 Figures/:
 
-    - This folder stored all the figures I created from 'final_data.csv' in 'code1.py' to use in my analysis
+    - Contains all the visualisations created using final_data.csv in code1.py.
+    - These figures are used for analysis and reporting.
 
 
+***************** Feautures in this project *****************
+
+Data Transformation:
+
+    - Merges multiple datasets into one cohesive structure.
+    - Cleans and prepares data for analysis.
+
+Visualization:
+
+    - Generates insightful visualisations to analyse trends and statistics in NFL data.
+    - Includes figures such as rushing vs. passing play percentages, win percentages, and touchdown comparisons.
+
+Testing:
+
+    - Includes a suite of unit tests to ensure the reliability and accuracy of key functions.
 
 
+***************** Additional Notes *****************
 
+Ensure the The_Data_Landscape_Project_Stats_Macro.xlsx file is present in the data/ directory for the project to run.
+
+Figures will be saved in the Figures/ directory upon execution of the code.
