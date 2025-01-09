@@ -8,7 +8,7 @@ create figures I can use in my report to visualise the data.
 
 ***************** Repository *****************
 
-[GitHub Repository](https://github.com/DAT5902_final_project-1)
+[GitHub Repository](https://github.com/abdullahrizmi14/DAT5902_final_project-1)
 
 ***************** Prerequisites *****************
 
@@ -19,7 +19,7 @@ create figures I can use in my report to visualise the data.
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/DAT5902_final_project-1.git
+   git clone https://github.com/abdullahrizmi14/DAT5902_final_project-1
    cd DAT5902_final_project-1
 
 2. Create a virtual environment:
